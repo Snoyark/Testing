@@ -83,6 +83,7 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 ### `dwo:contextQuery “__query__”.`
 
 *OPTIONAL* 
+
 A multiline SPARQL query would go here to customize what one would want as the popup (i.e., to include more information or style it based on the information available in every entity)
 
   
@@ -95,6 +96,7 @@ More documentation would be made available later in regards to this
 ### `rdfs:subClassOf <__parentClass__>`
 
 *OPTIONAL* 
+
 This creates a class hierarchy in your ontology, with some classes being subclasses of others
 
 ##### Case: `rdfs:subClassOf <UsAdministrativeDivision>`
@@ -470,11 +472,12 @@ BIND(IRI(CONCAT(STR(?project), "/user/", "__resultingName__.ttl")) AS ?resultGra
 
 An example ontology has been built demonstrating the majority of the use cases for building knowledge graphs. This knowledge graph models the games in the Legend of Zelda video game series. This can be found in this [project](https://data.world/videogameontology/exampleontproject), and all related files are underneath this public organization, including an example match, a piece of example data to build the ontology from, an example of a Wikidata query from where to pull the data, and the actual ontological files themselves.
 
-  
+# Final Step
+If, after running the query, one gets results (any results), that most likely means that your query is in the right form and it’s getting the proper values for the entities. You should download this as a Turtle file. You should then place this and the ontology .ttl file in a new dataset titled ddw-ontologies. After doing this, one should be able to see matches for these entities in any new uploaded file.
 
 # Troubleshooting
 
-If, after running the query, one gets results (any results), that most likely means that your query is in the right form and it’s getting the proper values for the entities. You should download this as a Turtle file. You will need to then open the file in a text editor and replace all occurrences of “dataset:” with an empty string, then place this and the ontology .ttl file in a new dataset titled ddw-ontologies. After doing this, one should be able to see matches for these entities in any new uploaded file. If not, there are a few probable errors in the ontology/entities files.
+ If you do not get any results above, there are a few probable errors in the ontology/entities files.
 
 -   The ontology is not written correctly, which would seen by not being able to view it after uploading. This is true for the entities file as well, if the syntax is not proper.
     

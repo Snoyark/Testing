@@ -1,5 +1,5 @@
 
-# Open Ontologies
+# Open Knowledge Graphs
 
 #### What they are and how to make them
 
@@ -468,7 +468,7 @@ BIND(IRI(CONCAT(STR(?project), "/user/", "__resultingName__.ttl")) AS ?resultGra
 
 # Full Example
 
-An example ontology has been built demonstrating the majority of the use cases for building ontologies. This ontology itself models the games in the Legend of Zelda video game series. This can be found in this [project](https://data.world/videogameontology/exampleontproject), and all related files are underneath this public organization, including an example match, a piece of example data to build the ontology from, an example of a Wikidata query from where to pull the data, and the actual ontological files themselves.
+An example ontology has been built demonstrating the majority of the use cases for building knowledge graphs. This knowledge graph models the games in the Legend of Zelda video game series. This can be found in this [project](https://data.world/videogameontology/exampleontproject), and all related files are underneath this public organization, including an example match, a piece of example data to build the ontology from, an example of a Wikidata query from where to pull the data, and the actual ontological files themselves.
 
   
 

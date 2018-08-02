@@ -3,6 +3,7 @@
 
 #### What they are and how to make them
 
+
 Do you ever have a bunch of digit-based-codes or random abbreviations that are endemic to your life, either personal or enterprise? They could be drug IDs for a pharmaceutical company, numerical codes for different international entities, or simply LEGO set codes for an avid collector. Of course, there is some datasheet somewhere detailing all of the connections, but it takes time to both find and get the information one needs. This is where knowledge graphs in data.world can come in. Knowledge graphs can allow one to bring in new pieces of data and have them linked with the basic information relating to the given subject. Instead of looking up the country for ISO Code "CHE", you could see in a neighboring column that that is Switzerland. They can also show related information. If you are cataloguing the inventory of LEGO parts, and match on Colors and Parts, you could also bring in Part Categories, to see if perhaps an entire category is in shortage. 
 
 To effectively create an knowledge graph, one needs metadata about the actual "entities" one is working with. It should ideally have more information than just its name, in order to fully utilize knowledge graphs. For example, a knowledge graph that allows the matching of state abbreviations to the original state is useful, but it would be better if it could also link in census regions, or population, among many other distinct attributes per entity.
@@ -22,7 +23,7 @@ Here are a few examples involving Texas:
 
 `<usstate_texas> <fipsAbbreviation> “TX”.`
 
-At its most base level, triples consist of three [Internationalized Resource Identifiers](https://en.wikipedia.org/wiki/Internationalized_Resource_Identifier) (IRIs) in series, followed by a period. One can think of IRIs as URLs (the latter is a subtype of the former). Just like in URLs, one has to include all the information for explicit IRIs, otherwise the resource will not be retrieved.
+At its most base level, triples consist of three [Internationalized Resource Identifiers](https://en.wikipedia.org/wiki/Internationalized_Resource_Identifier) (IRIs) in series, followed by a period. One can think of IRIs as URLs (the latter is a subtype of the former). Just like in URLs, one has to include all the information for explicit IRIs, otherwise the resource will not be retrieved. The object itself could be an IRI OR a literal (a string, integer, double, etc. Look [here](https://www.w3.org/TR/turtle/#literals) for all the types).
 
 This document pertains to building "open" knowledge graphs. By this, it is meant that these ontologies are easily shared and are more flexible in their use. They are also more easily built so the actual process happens more quickly. In contrast, "restricted" ontologies are not meant for easy sharing and live in one place. The main difference in form is that the subject, predicate, or object do not have to be explicit IRIs for open ontologies, which would otherwise restrict them to that specific location. Data.World uses the local notation for IRIs and builds the ontology they define in whichever data.world dataset these files are placed into. The method used to do this uses the local notation for IRIs, using angle brackets. This will be shown below.
 
@@ -258,7 +259,7 @@ Where the __name1__ and __username__ should be replaced with the overall name fo
 	a dwo:CodeSet ;
 	rdfs:isDefinedBy <> ;
 	dwo:denotation <Colors>;
-	rdfs:label "Color id" ;
+	rdfs:label "Color ID" ;
 	label:plural "Color IDs";
 	dwo:denotedByPredicate <colorId> .
 ```
@@ -316,7 +317,8 @@ skos:prefLabel “Commonwealth of Australia”@en;
 This is an internal label; it should be descriptive enough to know what entity this is without looking at its attributes.
 
 #### Case: `rdfs:label “Australia”;`
-
+#### Important:
+After finishing the SPARQL query that creates the entity file and then downloading the file, you will have to find all occurrences of `dataset:` and remove them. 
 ## Provenance
 
 This section is devoted to ensuring that datasets, projects, the creator, and the data itself are documented within the ontology. In the sections below marked with <Prov …..Prov/>, the provenance parts are listed and do not require much to change from ontology to ontology.
@@ -341,6 +343,7 @@ Below is a template for what every query that generates entities should look lik
 
 ```
 BASE <dataset:>
+#The above statement sets up the use of local notation
 PREFIX build: <> # this is, by default, blank, looking like this: ( : <>).
 PREFIX data: <> # where the dataset that was created with this project lives
 #the content in the <> should look something like this:
@@ -353,11 +356,18 @@ PREFIX wdrs: <http://www.w3.org/2007/05/powder-s#>
 PREFIX dwf: <http://data.world/function/functions#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
+#The construct block below is what actually builds the Entities
+#part of the knowledge graph
+#
+#Everything in the Construct must be defined below in the FROM NAMED/GRAPH Sections
 CONSTRUCT {
 	?iri a ?classIri;
 		rdfs:label ?label;
 		skos:prefLabel ?preferredLabel;
 		Every_other_attribute_goes_here ?otherObjects.
+	#the above code block calls for an entity called ?iri, which
+	#is a ?classIri. It has the rdfs:label ?label, the skos:prefLabel ?preferredLabel, and some other attributes.
+	#
 
 # For every last attribute, one has to use a period
 # it is possible to do this for multiple types of entities at once
@@ -366,20 +376,21 @@ CONSTRUCT {
   
 
 #<prov
+#gets the name of the activity (user defined) and records the time and agent
 	build:__name__ a prov:Activity ;
 	prov:wasAssociatedWith ?agent ; prov:startedAtTime ?timeStamp ;
 	prov:used ?projectVersion, ?datasetVersion, ?queryVersion ;
 	prov:generated ?resultGraph
 .
-
+#records the version for the project
 	?projectVersion a prov:Entity ;
 	prov:specializationOf ?project ; dwo:versionId ?projectVersionId
 .
-
+#records the version for the dataset
 	?datasetVersion a prov:Entity ;
 	prov:specializationOf ?dataset ; dwo:versionId ?datasetVersionId
 .
-
+#records the version for the query
 	?queryVersion a prov:Entity ;
 	prov:specializationOf ?query ; wdrs:text ?queryText ; wdrs:sha1sum ?querySha
 .
@@ -387,6 +398,8 @@ CONSTRUCT {
 #prov/>
 }
 
+#Tells data.world where to get the information from; should be 
+#a standard 
 FROM NAMED <datasetURL> {
 	GRAPH<datasetURL> {
 		?x a tbl-___________; #this would be the tabular data filename
@@ -395,12 +408,14 @@ FROM NAMED <datasetURL> {
 
 #Assumes some name of the entity can be obtained from the list, and that this name is the entity’s identifier
 
+#This creates an IRI safe name (without spaces and all lowercase)
 	BIND(
 		LCASE(
 			REPLACE(?name, “\\W”, “_”)
 		)
 	AS ?Lname)
 
+#This creates the ?iri variable seen above
 	BIND (
 		IRI (
 			CONCAT(
@@ -409,6 +424,7 @@ FROM NAMED <datasetURL> {
 		)
 	AS ?iri)
 
+#This creates the ?classIri variable seen above
 	BIND (
 		IRI (
 			CONCAT(
@@ -417,6 +433,7 @@ FROM NAMED <datasetURL> {
 		)
 	AS ?classIri)
 
+#This retrieves the ?datasetVersionId for the provenance above
 	data: foaf:homepage ?dataset ; dwo:versionId ?datasetVersionId .
 
 }
@@ -424,8 +441,10 @@ FROM NAMED <datasetURL> {
   
 
 #<prov
+#This retrieves the ?projectVersionId for the provenance above
 build: foaf:homepage ?dataset ; dwo:versionId ?projectVersionId .
 
+#this should be the URL of the data.world page you are PRESENTLY on
 BIND(<__queryURL__> AS ?query)
 BIND(<https://data.world/__user__> AS ?agent)
 BIND(NOW() AS ?timeStamp)
@@ -435,6 +454,9 @@ BIND(IRI(CONCAT(STR(build:project_), ?projectVersionId)) AS ?projectVersion)
 BIND(IRI(CONCAT(STR(build:dataset_), ?datasetVersionId)) AS ?datasetVersion)
 BIND(IRI(CONCAT(STR(build:query_), ?querySha)) AS ?queryVersion)
 BIND(IRI(CONCAT(STR(?project), "/user/", "__resultingName__.ttl")) AS ?resultGraph)
+
+#The above section captures the query, dataset, and project id as
+#well as the query text, the creator of the query, and the time it was created
 
 #prov/>
 ```

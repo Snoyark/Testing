@@ -328,7 +328,7 @@ For the entity files (the actual things that will be matched against)
 
 ### `skos:prefLabel ?something;`
 
-This is what data.world will actually match on natively, without codesets. This predicate and object are crucial.
+This is what data.world will actually match on natively, without codesets. This predicate and object are crucial. The `?something` refers to a variable that holds a string in it.
 
 Mind the camel cased spelling!
 ##### Case: 
@@ -340,7 +340,7 @@ skos:prefLabel “Commonwealth of Australia”@en;
 
 ### `rdfs:label ?something;`
 
-This is an internal label; it should be descriptive enough to know what entity this is without looking at its attributes.
+This is an internal label; it should be descriptive enough to know what entity this is without looking at its attributes. The `?something` refers to a variable that holds a string in it.
 
 #### Case: `rdfs:label “Australia”;`
 #### Important:

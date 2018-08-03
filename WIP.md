@@ -14,6 +14,9 @@ The ontology and entities are written in [RDF](https://en.wikipedia.org/wiki/Res
 
 The main concept behind RDF is that data is represented in triples, which are composed of three parts: the subject, the predicate, and the object. The subject is the thing in reference, the predicate is an attribute or type (more like a pointer), and the object is the actual value for this type/attribute for this subject. RDF is not a whitespace sensitive language, nor is the SPARQL language that creates Turtle files (the filetype of RDF).
 
+![](https://lh4.googleusercontent.com/BezVGtRL7YXJAS-bdLQ-K_1VWKEh3ajpOROD3Q5KYFg-m5_Xjoycx59rGUxM2cx8qcWIFMCkaDz6gJ3xWE7OUOt_3keUxlC6hfYlBV3Yo3y1T-hn69JxskPrw6cn9uzoIHqdd8u_)
+In the image above, every arrow, its source, and its destination are triples, with the source being the subject, the arrow itself being the predicate, and the destination being the object. As the above graph shows, these can form relatively complex structures as objects become their own subjects for a different set of predicates.
+
 Here are a few examples involving Texas:
 `<usstate_texas> a <UsState>.` This states that the entity usstate_texas is a  UsState.
 

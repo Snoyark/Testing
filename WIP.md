@@ -238,6 +238,13 @@ Checks data (in other datasets) for the specific “regexPattern” and replaces
 
 Where the __name1__ and __username__ should be replaced with the overall name for the ontology and your username (respectively). These replacements are largely just for bookkeeping to show who created the ontology.
 
+If you are creating categories in your ontology, where one entity could be part of a larger group, the following triple would be needed, separate from any other class/codeset definition:
+
+`<partOf__ontName__> rdfs:subPropertyOf dwo:partOf.`  
+
+Where __ontName__ is the name of the class that this would be a part of. This defines the predicate <partOf__ontName> that can now be used in any entity in the same knowledge graph. Within the class definitions for US Administrative Divisions, this definition is used for the entities that are part of US States:
+
+`<partOfUsState> rdfs:subPropertyOf dwo:partOf.`
   
 
 ## Example ontology/codeset

@@ -168,9 +168,9 @@ _Whatever the name of this specific attribute is, plural]
 
 ##### Case: `rdfs:label “US County Short Name”;`
 
-### `Label:plural “__name__ codes”;`
+### `label:plural “__name__ codes”;`
 
-Whatever the name of this specific attribute is, plural]
+Whatever the name of this specific attribute is, plural
 
 ##### Case: `label:plural “US County Short Names”;`
 
@@ -341,15 +341,15 @@ The __user__ refers to the data.world user creating the ontology.
 The __resultingName__ refers to the name of the file that will be created (whatever it will be called in the final dataset).
 
 ## Example Construct Query
-The generation of entities overall should have a similar, overall look to it. --type-- refers to the __name__ defined in the *ontology* for a given class. The series of blank spaces are left for the name of the source data and the columns in this data.
+The generation of entities overall should have a similar, overall look to it. --type-- refers to the __name__ defined in the *ontology* for a given class. It should be lowercased and have any spaces replaced with underscores. The series of blank spaces are left for the name of the source data and the columns in this data.
 
 Below is a template for what every query that generates entities should look like.
 
 
 ```
 BASE <dataset:>
-#The above statement sets up the use of local notation
-PREFIX build: <> # this is, by default, blank, looking like this: ( : <>).
+#The above statement sets up the use of local IRI notation
+PREFIX build: <> # this is, by default, blank, looking like this: ( : <__someURL__>).
 PREFIX data: <> # where the dataset that was created with this project lives
 #the content in the <> should look something like this:
 #https://__user__.linked.data.world/d/__dataset__
@@ -363,7 +363,7 @@ PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
 #The construct block below is what actually builds the Entities
 #part of the knowledge graph
-#
+
 #Everything in the Construct must be defined below in the FROM NAMED/GRAPH Sections
 CONSTRUCT {
 	?iri a ?classIri;
@@ -372,7 +372,6 @@ CONSTRUCT {
 		Every_other_attribute_goes_here ?otherObjects.
 	#the above code block calls for an entity called ?iri, which
 	#is a ?classIri. It has the rdfs:label ?label, the skos:prefLabel ?preferredLabel, and some other attributes.
-	#
 
 # For every last attribute, one has to use a period
 # it is possible to do this for multiple types of entities at once
@@ -438,13 +437,13 @@ FROM NAMED <datasetURL> {
 		)
 	AS ?classIri)
 
-#This retrieves the ?datasetVersionId for the provenance above
+	#In a real query, there likely would be "OPTIONAL" clauses as well 
+	#as more BIND clauses.
+
+	#This retrieves the ?datasetVersionId for the provenance above
 	data: foaf:homepage ?dataset ; dwo:versionId ?datasetVersionId .
-
-}
-
-  
-
+	}
+	
 #<prov
 #This retrieves the ?projectVersionId for the provenance above
 build: foaf:homepage ?dataset ; dwo:versionId ?projectVersionId .
@@ -464,10 +463,8 @@ BIND(IRI(CONCAT(STR(?project), "/user/", "__resultingName__.ttl")) AS ?resultGra
 #well as the query text, the creator of the query, and the time it was created
 
 #prov/>
-```
-  
-
 }
+```
 
   
 
@@ -476,7 +473,7 @@ BIND(IRI(CONCAT(STR(?project), "/user/", "__resultingName__.ttl")) AS ?resultGra
 An example ontology has been built demonstrating the majority of the use cases for building knowledge graphs. This knowledge graph models the games in the Legend of Zelda video game series. This can be found in this [project](https://data.world/videogameontology/exampleontproject), and all related files are underneath this public organization, including an example match, a piece of example data to build the ontology from, an example of a Wikidata query from where to pull the data, and the actual ontological files themselves.
 
 # Final Step
-If, after running the query, one gets results (any results), that most likely means that your query is in the right form and it’s getting the proper values for the entities. You should download this as a Turtle file. You should then place this and the ontology .ttl file in a new dataset titled ddw-ontologies. After doing this, one should be able to see matches for these entities in any new uploaded file.
+If, after running the query, one gets results (any results), that most likely means that your query is in the right form and it’s getting the proper values for the entities. You should download this as a Turtle file. You should then place this and the ontology .ttl file in a new dataset titled `ddw-ontologies`. After doing this, one should be able to see matches for these entities in any new uploaded file.
 
 # Troubleshooting
 
@@ -495,18 +492,18 @@ If, after running the query, one gets results (any results), that most likely me
 -   Ensure that the PREFIXes and any IRI are spelled the correct way
     
 
--   This was a surprisingly large portion of the errors found when creating ontologies
+	-   This was a surprisingly large portion of the errors found when creating ontologies
     
--   This includes CAPITALIZATION
+	-   This includes CAPITALIZATION
     
 
--   A general rule is a phrase is lower camel case (somethingLikeThisForEveryNewWord)
+	-   A general rule is a phrase is lower camel case (somethingLikeThisForEveryNewWord)
     
 
 -   Ensure everything ends with either a comma, semicolon, or period.
     
 
--   The reason why whitespace doesn’t matter in SPARQL is due to it looking for these delimiting punctuation.
+	-   The reason why whitespace doesn’t matter in SPARQL is due to it looking for these delimiting punctuation.
     
 
 -   If you’re missing certain attributes or certain entities, ensure that all entities have the attributes you seek; if they do not, make that optional using a clause like this:
@@ -518,4 +515,4 @@ OPTIONAL {
 #where ____attr____ is the column name of the attribute that is needed for a given value
 ```
 
--   If it doesn’t work when you feel it should, delete the file that you’re trying to test with (likely your original piece of tabular data) and wait about 30 seconds, and then try it. Sometimes it takes a second to process.
+-   If it doesn’t work when you feel it should, delete the file that you’re trying to test with (likely your original piece of data) and wait about 30 seconds, and then try it. Sometimes it takes a second for the data.world to take in the knowledge graph.

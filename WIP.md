@@ -83,7 +83,7 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 
 ##### Case: `rdfs:isDefinedBy <>;`
 
-### `dwo:contextQuery “__query__”.`
+### `dwo:contextQuery “__query__”;`
 
 *OPTIONAL* 
 
@@ -96,7 +96,7 @@ More documentation would be made available later in regards to this.
   
  
 
-### `rdfs:subClassOf <__parentClass__>`
+### `rdfs:subClassOf <__parentClass__>;`
 
 *OPTIONAL* 
 
@@ -161,7 +161,7 @@ Tells what type of class this codeset is for, and thus must have __name__ equiva
 
 ##### Case: `dwo:denotation <County>;`
 
-### `rdfs:label “__name__ code”`
+### `rdfs:label “__name__ code”;`
 
 Whatever the singular name of this specific attribute is.
 
@@ -179,13 +179,13 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 
 ##### Case: `rdfs:isDefinedBy <>;`
 
-### `dwo:denotedByPredicate <__attr__>`
+### `dwo:denotedByPredicate <__attr__>;`
 
 This identifies __object__ as the specific entity predicate that this codeset looks for.
 
 ##### Case: `dwo:denotedByPredicate <countyShortName>;`
 
-### `dwo:requiresContext <__context__>`
+### `dwo:requiresContext <__context__>;`
 
 *OPTIONAL*
 
@@ -199,7 +199,7 @@ __Note:__ if this predicate exists, then entities will not match UNLESS informat
 
 ##### Case: `dwo:requiresContext <UsAdministrativeDivision>;`
 
-### `dwo:contextByPredicate <__contextPred__>`
+### `dwo:contextByPredicate <__contextPred__>;`
 
 *Required if one uses the predicate above, otherwise optional*
 
@@ -212,7 +212,7 @@ __pred__ refers specifically to the attribute that contains the entity whose cla
 
 ##### Case: `dwo:contextByPredicate <partOfUsState>;`
 
-### `dwo:reshapeRule [dwo:regex “regexPattern”; dwo:regex_replace “replacement”]`
+### `dwo:reshapeRule [dwo:regex “regexPattern”; dwo:regex_replace “replacement”];`
 
 *OPTIONAL*
 
@@ -236,15 +236,38 @@ Checks data (in other datasets) for the specific “regexPattern” and replaces
 		owl:versionInfo 0.0 .
 ```
 
-Where the __name1__ and __username__ should be replaced with the overall name for the ontology and your username (respectively). These replacements are largely just for bookkeeping to show who created the ontology.
+- Where the __name1__ and __username__ should be replaced with the overall name for the ontology and your username (respectively). These replacements are largely just for bookkeeping to show who created the ontology.
 
-If you are creating categories in your ontology, where one entity could be part of a larger group, the following triple would be needed, separate from any other class/codeset definition:
+- If you are creating categories in your ontology, where one entity could be part of a larger group, the following triple would be needed, separate from any other class/codeset definition:
 
-`<partOf__ontName__> rdfs:subPropertyOf dwo:partOf.`  
+	- `<partOf__ontName__> rdfs:subPropertyOf dwo:partOf.`  
 
-Where __ontName__ is the name of the class that this would be a part of. This defines the predicate <partOf__ontName> that can now be used in any entity in the same knowledge graph. Within the class definitions for US Administrative Divisions, this definition is used for the entities that are part of US States:
+- Where __ontName__ is the name of the class that this would be a part of. This defines the predicate <partOf__ontName> that can now be used in any entity in the same knowledge graph. Within the class definitions for US Administrative Divisions, this definition is used for the entities that are part of US States:
 
-`<partOfUsState> rdfs:subPropertyOf dwo:partOf.`
+	- `<partOfUsState> rdfs:subPropertyOf dwo:partOf.`
+- Remember to end every stanza with a period instead of a semicolon, which marks the end of attributes for the given subject.
+- (General) If you have multiple objects for a given predicate, you can separate them via commas:
+```
+<subject>
+	...
+	<predicate> <object1>, <object2>, <object3>;
+	...
+```
+This is is equivalent to these forms:
+```
+...
+<subject> <predicate <object1> .
+<subject> <predicate <object2> .
+<subject> <predicate <object3> .
+...
+#And
+<subject>
+	...
+	<predicate> <object1> ;
+	<predicate> <object2> ;
+	<predicate> <object3> ;
+	...
+```
   
 
 ## Example ontology/codeset

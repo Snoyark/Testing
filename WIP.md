@@ -205,10 +205,7 @@ __Note:__ if this predicate exists, then entities will not match UNLESS informat
 
   
 
-__pred__ refers specifically to the attribute that contains the entity whose class is denoted by __something__. For example, counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:UsAdministrativeDivision clause on their codesets, due to the fact that counties have a lot of repeat names.
-
-  
-  
+__contextPred__ gives the predicate that draws the association between this entity and another ontology. For example, since US Counties are part of a US State, and that they have a `<contextByPredicate> <UsAdministrativeDivision>`, they should have the `<partOfUsState>` predicate as an object, as seen in the Case.
 
 ##### Case: `dwo:contextByPredicate <partOfUsState>;`
 

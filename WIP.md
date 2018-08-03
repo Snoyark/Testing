@@ -72,7 +72,7 @@ A short description of what exactly the class is and what attributes it may cont
 
 ### `foaf:depiction <https://ontology-assets.data.world/icons/__file__>;`
 
-An image that depicts the type of entity this is (left is used as default).
+An image that depicts the type of entity this is.
 
 ##### Case: `foaf:depiction <https://ontology-assets.data.world/icons/icon-geo.svg>;`
 
@@ -124,7 +124,7 @@ A little factory (think industry for ind) .
 
 ### `icon-medical.svg`
 
-A medical plus.
+A medical plus in a rectangle.
 
 ### `icon-sex.svg`
 
@@ -163,13 +163,13 @@ Tells what type of class this codeset is for, and thus must have __name__ equiva
 
 ### `rdfs:label “__name__ code”`
 
-Whatever the name of this specific attribute is, plural.
+Whatever the singular name of this specific attribute is.
 
 ##### Case: `rdfs:label “US County Short Name”;`
 
 ### `label:plural “__name__ codes”;`
 
-Whatever the name of this specific attribute is, plural.
+Whatever the plural name of this specific attribute is.
 
 ##### Case: `label:plural “US County Short Names”;`
 
@@ -181,7 +181,7 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 
 ### `dwo:denotedByPredicate <__attr__>`
 
-This identifies __object__ as the specific entity attribute that this codeset looks for.
+This identifies __object__ as the specific entity predicate that this codeset looks for.
 
 ##### Case: `dwo:denotedByPredicate <countyShortName>;`
 
@@ -193,10 +193,7 @@ Used when one has multiple entries with the same name or similar attributes, and
   
 
 The __something__ would be another class/ontology that has an entity that is used somewhere as an object.
-
-  
-
-E.g. Counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:UsAdministrativeDivision clause on their codesets, due to the fact that counties have a lot of repeat names.
+__Note:__ if this predicate exists, then entities will not match UNLESS information about this other ontology is present in the table.
 
   
 
@@ -208,7 +205,7 @@ E.g. Counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:U
 
   
 
-__pred__ refers specifically to the attribute that contains the entity whose class is denoted by __something__, shown above.
+__pred__ refers specifically to the attribute that contains the entity whose class is denoted by __something__. For example, counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:UsAdministrativeDivision clause on their codesets, due to the fact that counties have a lot of repeat names.
 
   
   
@@ -239,13 +236,11 @@ Checks data (in other datasets) for the specific “regexPattern” and replaces
 		owl:versionInfo 0.0 .
 ```
 
-Where the __name1__ and __username__ should be replaced with the overall name for the ontology and your username (respectively). These changes are largely just for bookkeeping to show who created the ontology.
+Where the __name1__ and __username__ should be replaced with the overall name for the ontology and your username (respectively). These replacements are largely just for bookkeeping to show who created the ontology.
 
   
 
-## Example ontology/codeset with entity for reference
-
-  
+## Example ontology/codeset
 
 ```
 <Colors>
@@ -336,8 +331,10 @@ The __user__ refers to the data.world user creating the ontology.
 
 The __resultingName__ refers to the name of the file that will be created (whatever it will be called in the final dataset).
 
+The --type-- refers to the __name__ defined in the *ontology* for a given class.
+
 ## Example Construct Query
-The generation of entities overall should have a similar, overall look to it. --type-- refers to the __name__ defined in the *ontology* for a given class. It should be lowercased and have any spaces replaced with underscores. The series of blank spaces are left for the name of the source data and the columns in this data.
+The generation of entities overall should have a similar, overall look to it. It should be lowercased and have any spaces replaced with underscores. The series of blank spaces are left for the name of the source data and the columns in this data.
 
 Below is a template for what every query that generates entities should look like.
 
@@ -366,8 +363,8 @@ CONSTRUCT {
 		rdfs:label ?label;
 		skos:prefLabel ?preferredLabel;
 		Every_other_attribute_goes_here ?otherObjects.
-	#the above code block calls for an entity called ?iri, which
-	#is a ?classIri. It has the rdfs:label ?label, the skos:prefLabel ?preferredLabel, and some other attributes.
+	#the above code block calls for an entity called ?iri, which is a ?classIri. 
+	#It has the rdfs:label ?label, the skos:prefLabel ?preferredLabel, and some other attributes.
 
 # For every last attribute, one has to use a period
 # it is possible to do this for multiple types of entities at once

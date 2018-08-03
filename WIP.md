@@ -87,11 +87,11 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 
 *OPTIONAL* 
 
-A multiline SPARQL query would go here to customize what one would want as the popup (i.e., to include more information or style it based on the information available in every entity)
+A multiline SPARQL query would go here to customize what one would want as the popup (i.e., to include more information or style it based on the information available in every entity) .
 
   
 
-More documentation would be made available later in regards to this
+More documentation would be made available later in regards to this.
 
   
  
@@ -100,40 +100,39 @@ More documentation would be made available later in regards to this
 
 *OPTIONAL* 
 
-This creates a class hierarchy in your ontology, with some classes being subclasses of others
+This creates a class hierarchy in your ontology, with some classes being subclasses of others.
 
 ##### Case: `rdfs:subClassOf <UsAdministrativeDivision>`
 
   
 
 ## FOAF:Depiction List
-
-All items in this list take the form <https://ontology-assets.data.world/icons/__file__>, where __file__ can be:
+The following list contains different images one can use to depict their entities in image form. All items in this list take the form <https://ontology-assets.data.world/icons/__file__>, where __file__ can be:
 
 
 ### `icon-currency.svg`
 
-A coin with a dollar sign in it
+A coin with a dollar sign in it.
 
 ### `icon-fish.svg`
 
-A fish
+A fish.
 
 ### `icon-ind.svg`
 
-A little factory (think industry for ind)
+A little factory (think industry for ind) .
 
 ### `icon-medical.svg`
 
-A medical plus
+A medical plus.
 
 ### `icon-sex.svg`
 
-A faceless person
+A faceless person.
 
 ### `icon-geo.svg`
 
-Image used as default; a globe
+The assumed default entity depiction; a globe.
 
   
 
@@ -144,7 +143,7 @@ The general structure of a codeset is outlined below, going line by line. The *C
 
 ### `<Code__name__>`
 
-The __name__ should match the name of the class that this is a code for
+The __name__ should match the name of the class that this is a code for.
 
 Code should be prepended for ease of reading.
 
@@ -158,19 +157,19 @@ Tells the type of the object (‘a’ is equivalent to ‘rdf:type’). In this 
 
 ### `dwo:denotation <__name__>;`
 
-Tells what type of class this codeset is for, and thus must have __name__ equivalent to the name of the class this denotes
+Tells what type of class this codeset is for, and thus must have __name__ equivalent to the name of the class this denotes.
 
 ##### Case: `dwo:denotation <County>;`
 
 ### `rdfs:label “__name__ code”`
 
-_Whatever the name of this specific attribute is, plural]
+Whatever the name of this specific attribute is, plural.
 
 ##### Case: `rdfs:label “US County Short Name”;`
 
 ### `label:plural “__name__ codes”;`
 
-Whatever the name of this specific attribute is, plural
+Whatever the name of this specific attribute is, plural.
 
 ##### Case: `label:plural “US County Short Names”;`
 
@@ -182,7 +181,7 @@ The predicate that defines where the ontology lives. The empty set of angle brac
 
 ### `dwo:denotedByPredicate <__attr__>`
 
-This identifies __object__ as the specific entity attribute that this codeset looks for
+This identifies __object__ as the specific entity attribute that this codeset looks for.
 
 ##### Case: `dwo:denotedByPredicate <countyShortName>;`
 
@@ -190,15 +189,14 @@ This identifies __object__ as the specific entity attribute that this codeset lo
 
 *OPTIONAL*
 
-Used when one has multiple entries with the same name or similar attributes, and needs something to distinguish between them
+Used when one has multiple entries with the same name or similar attributes, and needs something to distinguish between them.
+  
+
+The __something__ would be another class/ontology that has an entity that is used somewhere as an object.
 
   
 
-The __something__ would be another class/ontology that has an entity that is used somewhere as an object
-
-  
-
-E.g. Counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:UsAdministrativeDivision clause on their codesets, due to the fact that counties have a lot of repeat names
+E.g. Counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:UsAdministrativeDivision clause on their codesets, due to the fact that counties have a lot of repeat names.
 
   
 
@@ -210,9 +208,7 @@ E.g. Counties have a partOfUsState clause, and have dwo:contextByPredicate dwo:U
 
   
 
-__pred__ refers specifically to the attribute that contains the entity whose class is denoted by __something__, shown above
-
-In the above example, __pred__ would be dwo:partOfUsState
+__pred__ refers specifically to the attribute that contains the entity whose class is denoted by __something__, shown above.
 
   
   
@@ -223,7 +219,7 @@ In the above example, __pred__ would be dwo:partOfUsState
 
 *OPTIONAL*
 
-Checks data (in other datasets) for the specific “regexPattern” and replaces them with the “replacement” pattern before attempting to match them
+Checks data (in other datasets) for the specific “regexPattern” and replaces them with the “replacement” pattern before attempting to match them.
 
 ##### Case: `dwo:reshapeRule [dwo:regex "^(.*) (county|parish|borough).*$"; dwo:regex_replace "$1"].`
 
@@ -231,7 +227,7 @@ Checks data (in other datasets) for the specific “regexPattern” and replaces
 
   
 ## Notes about Ontology Creation
--   You should create this file by hand in some file editor and then save this as __name__.ttl, where __name__ is up to the creator
+-   You should create this file by hand in some file editor and then save this as __name__.ttl, where __name__ is up to the creator.
     
 -   At the top of the ontology, one must include these lines of code:
 ```
@@ -287,22 +283,22 @@ One color entity, for reference:
 
 For the entity files (the actual things that will be matched against)
 
--   These will be (hopefully) programmatically generated using data.world
--   The best way to produce these is using tabular data and data.world
+-   These will be (hopefully) programmatically generated using data.world.
+-   The best way to produce these is using tabular data and data.world.
 -   Predicates
     
 
--   Most of these should be in angle brackets unless specifically referring to an attribute of another ontology with a different IRI, or referring to attributes defined by another ontology (such as geo:lat/geo:long)
+	-   Most of these should be in angle brackets unless specifically referring to an attribute of another ontology with a different IRI, or referring to attributes defined by another ontology (such as geo:lat/geo:long) .
 	- These should be the attributes of your entities, like: 
 	- `dwo:usstate_texas dwo:partOfCountry dwo:country_united_states_of_america`
     
 
-	-   In the example, this is stating that Texas is part of the country of the US.
+		-   In the example, this is stating that Texas is part of the country of the US.
     
-	-   These should be taken from the tabular data.
+	-   These should be taken from the data.
     
     
--   The two required attributes are detailed below, using the country of Australia for the *Case*.
+-   The two required predicates are detailed below, using the country of Australia for the *Case*.
    
 
 ### `skos:prefLabel ?something;`
@@ -485,19 +481,19 @@ If, after running the query, one gets results (any results), that most likely me
 -   The most common mistake here is a period or semicolon either missing or in the wrong place.
     
 
--   The entities natively only match on the ‘skos:prefLabel’ and ‘skos:altLabel’ objects, so you may want to change these or add a codeset that finds entities to match based on different attributes than these
+-   The entities natively only match on the ‘skos:prefLabel’ and ‘skos:altLabel’ objects, so you may want to change these or add a codeset that finds entities to match based on different attributes than these.
     
--   Ensure everything in a string (that is formatted) is spelled/formatted correctly
+-   Ensure everything in a string (that is formatted) is spelled/formatted correctly.
     
--   Ensure that the PREFIXes and any IRI are spelled the correct way
-    
-
-	-   This was a surprisingly large portion of the errors found when creating ontologies
-    
-	-   This includes CAPITALIZATION
+-   Ensure that the PREFIXes and any IRI are spelled the correct way.
     
 
-	-   A general rule is a phrase is lower camel case (somethingLikeThisForEveryNewWord)
+	-   This was a surprisingly large portion of the errors found when creating ontologies.
+    
+	-   This includes CAPITALIZATION!
+    
+
+	-   A general rule is a phrase is lower camel case (somethingLikeThisForEveryNewWord) .
     
 
 -   Ensure everything ends with either a comma, semicolon, or period.
